@@ -1,1 +1,4 @@
-## Add resources to get started
+[[server]]
+name = "mgr"
+[server.config]
+enabled = true
