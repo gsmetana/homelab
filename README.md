@@ -64,13 +64,16 @@ sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo systemctl enable docker
 ```
 7. Join Docker Swarm
+
 On a manager node, run this command to get a join token
 ```
 docker swarm join-token worker
 ```
 9. Install Komodo
 
-The Komodo manager runs the core service and database. Other nodes only need to install the periphery service. All Komodo services should have unique container names. If the Komodo containers are in the same Docker overlay network, they should be able to communicate using container names without exposing any ports
+The Komodo manager node runs the Core service and database. Other nodes only need to install the periphery service. All Komodo services should have unique container names. If the Komodo containers are in the same Docker overlay network, they should be able to communicate using container names without exposing any ports
+
+10. (If manager) Komodo Resource Sync 
 
 ## TODO
 - Document SSH key distribution & root login
