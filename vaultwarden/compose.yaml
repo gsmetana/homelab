@@ -1,0 +1,27 @@
+services:
+  
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    environment:
+      - WEBSOCKET_ENABLED=true  # Enable WebSocket notifications.
+      - DOMAIN=https://vault.$DOMAINNAME
+      - SMTP_HOST=${EMAIL_HOST}
+      - SMTP_FROM=${EMAIL_FROM}
+      - SMTP_PORT=25
+      - SMTP_SECURITY=off
+    volumes:
+      - $DOCKERDATA_MGR/vaultwarden:/data
+    labels:
+      - "traefik.enable=true"
+      # web      
+      - "traefik.http.routers.vault-rtr.rule=Host(`vault.$DOMAINNAME`)"
+      - "traefik.http.routers.vault-rtr.entrypoints=websecure"
+      - "traefik.http.routers.vault-rtr.service=vault-svc" 
+      - 'traefik.http.services.vault-svc.loadbalancer.server.port=80'
+
+networks:
+  default:
+    external: true
+    name: myNetwork
