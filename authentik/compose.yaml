@@ -24,7 +24,7 @@ services:
 
 
   authentik:
-    image: ghcr.io/goauthentik/server:2025.8.1
+    image: ghcr.io/goauthentik/server:2025.12.4
     container_name: authentik
     restart: unless-stopped
     command: server
@@ -63,7 +63,7 @@ services:
       - "traefik.http.services.authentik-svc.loadBalancer.server.port=9000"
 
   authentik-worker:
-    image: ghcr.io/goauthentik/server:2025.8.1
+    image: ghcr.io/goauthentik/server:2025.12.4
     container_name: authentik-worker
     restart: unless-stopped
     command: worker
