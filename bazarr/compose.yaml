@@ -1,0 +1,25 @@
+services:
+  bazarr:
+    container_name: bazarr
+    image: linuxserver/bazarr:latest
+    restart: unless-stopped
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+      - UMASK_SET=022 #optional
+    volumes:
+      - $CONFIGROOT/bazarr:/config
+      - $MEDIAROOT:/media
+    labels:
+      - "traefik.enable=true"     
+      # web      
+      - "traefik.http.routers.bazarr-https.rule=Host(`bazarr.$DOMAINNAME`)"
+      - "traefik.http.routers.bazarr-https.entrypoints=websecure"
+      - "traefik.http.routers.bazarr-https.service=bazarr-https"
+      - "traefik.http.services.bazarr-https.loadbalancer.server.port=6767" 
+
+networks:
+  default:
+    external: true
+    name: myNetwork
