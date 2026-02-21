@@ -1,0 +1,26 @@
+services:
+  termix:
+    image: ghcr.io/lukegus/termix:latest
+    container_name: termix
+    restart: unless-stopped
+    volumes:
+      - termix-data:/app/data
+    environment:
+      PORT: "8080"
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.termix-rtr.rule=Host(`termix.${DOMAINNAME}`)"
+      - "traefik.http.routers.termix-rtr.entrypoints=websecure"
+      ## HTTP Services
+      - "traefik.http.routers.termix-rtr.service=termix-svc"
+      - "traefik.http.services.termix-svc.loadBalancer.server.port=8080"
+      
+volumes:
+  termix-data:
+    driver: local
+
+networks:
+  default:
+    external: true
+    name: myNetwork
