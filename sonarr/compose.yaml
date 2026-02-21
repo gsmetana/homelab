@@ -1,0 +1,25 @@
+services:
+  sonarr:
+    container_name: sonarr
+    image: linuxserver/sonarr:latest
+    restart: unless-stopped
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $CONFIGROOT/sonarr:/config
+      - $MEDIAROOT:/media
+    labels:
+      - "traefik.enable=true"     
+      # web     
+      - "traefik.http.routers.sonarr-https.rule=Host(`sonarr.$DOMAINNAME`)"
+      - "traefik.http.routers.sonarr-https.entrypoints=websecure"
+      - "traefik.http.routers.sonarr-https.service=sonarr-svc"
+      - "traefik.http.services.sonarr-svc.loadbalancer.server.port=8989"    
+
+networks:
+  default:
+    external: true
+    name: myNetwork
