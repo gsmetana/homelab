@@ -73,9 +73,9 @@ On a manager node, run this command to get a join token
 ```
 docker swarm join-token worker
 ```
-9. Install Komodo
+8. Install Komodo
 
-10. (If manager) Komodo Resource Sync 
+9. (If manager) Komodo Resource Sync 
 
 ## TODO
 - Document SSH key distribution & root login
