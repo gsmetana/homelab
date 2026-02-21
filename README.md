@@ -22,6 +22,10 @@ The Proxmox UI is used to configure VM backups. Files on RAID are selectively ba
 
 ### Docker (Komodo)
 
+The Komodo manager node runs the Core service and database. Other nodes only need to install the periphery service. All Komodo services should have unique container names. If the Komodo containers are in the same Docker overlay network, they should be able to communicate using container names without exposing any ports
+
+Komodo is used to manage secrets, but no sensitive configuration is located in this repo. The `secrets` section of `core.config.toml` (located elsewhere) describes environment variables for containers. These are referenced in Komodo with brackets for interpolation, eg `[[AUTHENTIK_SECRET_KEY]]` and populated into .env files during deployment.
+
 ## Instructions
 
 To setup a new server machine:
@@ -70,8 +74,6 @@ On a manager node, run this command to get a join token
 docker swarm join-token worker
 ```
 9. Install Komodo
-
-The Komodo manager node runs the Core service and database. Other nodes only need to install the periphery service. All Komodo services should have unique container names. If the Komodo containers are in the same Docker overlay network, they should be able to communicate using container names without exposing any ports
 
 10. (If manager) Komodo Resource Sync 
 
