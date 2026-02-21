@@ -11,6 +11,7 @@ services:
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=1  # Disables IPv6 to prevent leaks
     environment:
+      - DNS_UPSTREAM_RESOLVERS=quad9
       - VPN_SERVICE_PROVIDER=protonvpn  # Specifies ProtonVPN as the VPN provider
       - VPN_TYPE=wireguard  # Uses WireGuard as the VPN protocol
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}  # Private key for authentication (from .env)
@@ -19,7 +20,7 @@ services:
       - VPN_PORT_FORWARDING=on  # Enables automatic port forwarding (needed for torrenting)
       - TZ=${TZ}  # Sets the timezone for correct timestamps in logs
     volumes:
-      - $CONFIGROOT/gluetun:/gluetun # Stores VPN configuration persistently
+      - $DOCKERDATA_NAS/gluetun:/gluetun # Stores VPN configuration persistently
       - "./config.toml:/gluetun/auth/config.toml:ro"
     #expose:
     #- 8112
