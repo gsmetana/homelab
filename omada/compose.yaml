@@ -1,0 +1,27 @@
+services:
+  omada:
+    container_name: omada
+    restart: unless-stopped
+    network_mode: host
+    image: mbentley/omada-controller:6.0
+    environment:
+      - MANAGE_HTTP_PORT=8088
+      - MANAGE_HTTPS_PORT=8043
+      - PORTAL_HTTP_PORT=8088
+      - PORTAL_HTTPS_PORT=8843
+    #  - TZ=$TZ
+    volumes:
+      - $DOCKERDATA_MGR/omada/data:/opt/tplink/EAPController/data
+      - $DOCKERDATA_MGR/omada/logs:/opt/tplink/EAPController/logs
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.omada-https.rule=Host(`omada.$DOMAINNAME`)"
+      - "traefik.http.routers.omada-https.entrypoints=websecure"
+      - "traefik.http.routers.omada-https.service=omada-https"
+      - "traefik.http.services.omada-https.loadbalancer.server.port=8088"
+      - "traefik.http.services.omada-https.loadbalancer.server.scheme=http"
+
+networks:
+  default:
+    external: true
+    name: myNetwork 
