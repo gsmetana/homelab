@@ -80,6 +80,14 @@ docker swarm join-token worker
 ## TODO
 - Document SSH key distribution & root login
 
+## Previous Incarnations of the homelab 
+
+- VMware ESXi (hypervisor)
+- VMware Photon OS (VM)
+- OpenMediaVault (VM)
+- OpenMediaVault Compose Plugin (Container Management)
+- Portainer (Container Management)
+
 
    
    
