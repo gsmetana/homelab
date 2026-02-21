@@ -1,0 +1,22 @@
+services:
+  qui:
+    image: ghcr.io/autobrr/qui:latest
+    container_name: qui
+    restart: unless-stopped
+    expose:
+    - 7476
+    volumes:
+      - $CONFIGROOT/qui:/config
+      - $MEDIAROOT:/media
+    labels:
+      - "traefik.enable=true"   
+      # web      
+      - "traefik.http.routers.qui-rtr.rule=Host(`qui.$DOMAINNAME`)"
+      - "traefik.http.routers.qui-rtr.entrypoints=websecure"
+      - "traefik.http.routers.qui-rtr.service=qui-svc"
+      - "traefik.http.services.qui-svc.loadbalancer.server.port=7476"
+
+networks:
+  default:
+    external: true
+    name: myNetwork
