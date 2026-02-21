@@ -13,6 +13,7 @@ services:
     environment:
       - DNS_UPSTREAM_RESOLVERS=quad9
       - DNS_UPSTREAM_RESOLVER_TYPE=doh
+      - BLOCK_MALICIOUS=off
       - VPN_SERVICE_PROVIDER=protonvpn  # Specifies ProtonVPN as the VPN provider
       - VPN_TYPE=wireguard  # Uses WireGuard as the VPN protocol
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}  # Private key for authentication (from .env)
