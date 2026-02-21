@@ -1,0 +1,33 @@
+services:
+  traefik-kop:
+    container_name: "traefik-kop-nas"
+    image: "ghcr.io/jittering/traefik-kop:latest"
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - "REDIS_ADDR=traefik-redis:6379"
+      - "SKIP_REPLACE=true"
+    networks:
+      - myNetwork
+
+  nas-whoami:
+    image: "traefik/whoami"
+    container_name: "nas-whoami"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.nas-rtr.rule=Host(`nas.${DOMAINNAME}`)"
+      - "traefik.http.routers.nas-rtr.entrypoints=websecure"
+      ## HTTP Services
+      - "traefik.http.routers.nas-rtr.service=nas-svc"
+      - "traefik.http.services.nas-svc.loadBalancer.server.port=80"
+      ## Middlewares
+      - "traefik.http.routers.nas-rtr.middlewares=middlewares-authentik@file"
+    networks:
+      - myNetwork      
+
+networks:
+  myNetwork:
+    external: true
