@@ -20,11 +20,13 @@ services:
       - TZ=${TZ}  # Sets the timezone for correct timestamps in logs
     volumes:
       - $CONFIGROOT/gluetun:/gluetun # Stores VPN configuration persistently
+      - "./config.toml:/gluetun/auth/config.toml:ro"
     #expose:
     #- 8112
     #- 3000
     networks:
       - myNetwork
+
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://google.com"]  # Checks if the VPN connection is active
       interval: 30s  # Runs every 30 seconds
