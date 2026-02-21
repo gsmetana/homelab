@@ -1,0 +1,24 @@
+services:
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    restart: unless-stopped
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $CONFIGROOT/overseerr:/config
+    labels:
+      - "traefik.enable=true"   
+      # web
+      - "traefik.http.routers.overseerr-https.rule=Host(`request.$DOMAINNAME`)"
+      - "traefik.http.routers.overseerr-https.entrypoints=websecure"
+      - "traefik.http.routers.overseerr-https.service=overseerr-https"
+      - "traefik.http.services.overseerr-https.loadbalancer.server.port=5055"
+      
+networks:
+  default:
+    external: true
+    name: myNetwork
