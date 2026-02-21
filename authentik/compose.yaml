@@ -8,7 +8,7 @@ services:
       - POSTGRES_PASSWORD=${AUTHENTIK_POSTGRESQL_PASSWORD}
       - POSTGRES_DB=authentik
     volumes:
-      - ./database:/var/lib/postgresql/data
+      - $DOCKERDATA_MGR/authentik/database:/var/lib/postgresql/data
     networks:
       - authentik-network
 
@@ -18,7 +18,7 @@ services:
     container_name: authentik-redis
     restart: unless-stopped
     volumes:
-      - ./redis:/data
+      - $DOCKERDATA_MGR/authentik/redis:/data
     networks:
       - authentik-network
 
@@ -46,7 +46,7 @@ services:
       - AUTHENTIK_EMAIL__FROM=${EMAIL_FROM}
 
     volumes:
-      - ./data:/data
+      - $DOCKERDATA_MGR/authentik/data:/data
     networks:
       - authentik-network
       - myNetwork
@@ -84,7 +84,7 @@ services:
       - AUTHENTIK_EMAIL__PORT=25
       - AUTHENTIK_EMAIL__FROM=${EMAIL_FROM}
     volumes:
-      - ./data:/data
+      - $DOCKERDATA_MGR/authentik/data:/data
     networks:
       - authentik-network
     
