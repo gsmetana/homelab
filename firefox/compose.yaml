@@ -1,0 +1,26 @@
+services:
+  firefox:
+    image: lscr.io/linuxserver/firefox:latest
+    container_name: firefox
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+      - FIREFOX_CLI=https://www.linuxserver.io/ #optional
+    volumes:
+      - $CONFIGROOT/firefox:/config
+    shm_size: "1gb"
+    restart: unless-stopped
+    network_mode: "container:gluetun"  # 🔒 Ensures firefox ONLY works through the VPN (Prevents leaks)
+    
+    #depends_on:
+    #  gluetun:
+    #    condition: service_healthy  # Ensures firefox starts only when the VPN is fully functional
+    
+    labels:
+      - "traefik.enable=true"   
+      # web      
+      - "traefik.http.routers.ff-rtr.rule=Host(`ff.$DOMAINNAME`)"
+      - "traefik.http.routers.ff-rtr.entrypoints=websecure"
+      - "traefik.http.routers.ff-rtr.service=ff-svc"
+      - "traefik.http.services.ff-svc.loadbalancer.server.port=3000"
