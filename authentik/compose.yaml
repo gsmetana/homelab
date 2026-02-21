@@ -1,0 +1,94 @@
+services:
+  authentik-db:
+    image: postgres:15
+    container_name: authentik-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=authentik
+      - POSTGRES_PASSWORD=${AUTHENTIK_POSTGRESQL_PASSWORD}
+      - POSTGRES_DB=authentik
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    networks:
+      - authentik-network
+
+
+  authentik-redis:
+    image: redis:7-alpine
+    container_name: authentik-redis
+    restart: unless-stopped
+    volumes:
+      - ./redis:/data
+    networks:
+      - authentik-network
+
+
+  authentik:
+    image: ghcr.io/goauthentik/server:2025.8.1
+    container_name: authentik
+    restart: unless-stopped
+    command: server
+    depends_on:
+      - authentik-db
+      - authentik-redis
+    environment:
+      - AUTHENTIK_POSTGRESQL__HOST=authentik-db
+      - AUTHENTIK_POSTGRESQL__NAME=authentik
+      - AUTHENTIK_POSTGRESQL__USER=authentik
+      - AUTHENTIK_POSTGRESQL__PASSWORD=${AUTHENTIK_POSTGRESQL_PASSWORD}
+      - AUTHENTIK_REDIS__HOST=authentik-redis
+      - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
+      - AUTHENTIK_ERROR_REPORTING__ENABLED=true
+      - AUTHENTIK_LOG_LEVEL=info
+      - AUTHENTIK_WEB__TRUSTED_PROXIES=*
+      - AUTHENTIK_EMAIL__HOST=${EMAIL_HOST}
+      - AUTHENTIK_EMAIL__PORT=25
+      - AUTHENTIK_EMAIL__FROM=${EMAIL_FROM}
+
+    volumes:
+      - ./data:/data
+    networks:
+      - authentik-network
+      - myNetwork
+    labels:
+      - "traefik.enable=true"
+
+      ## HTTP Routers
+      - "traefik.http.routers.authentik-rtr.rule=Host(`auth.${DOMAINNAME}`)"
+      - "traefik.http.routers.authentik-rtr.entrypoints=websecure"
+      ## Individual Application forwardAuth regex (catch any subdomain using individual application forwardAuth)  
+      - "traefik.http.routers.authentik-output-rtr.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.${DOMAINNAME}`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      ## HTTP Services
+      - "traefik.http.routers.authentik-rtr.service=authentik-svc"
+      - "traefik.http.services.authentik-svc.loadBalancer.server.port=9000"
+
+  authentik-worker:
+    image: ghcr.io/goauthentik/server:2025.8.1
+    container_name: authentik-worker
+    restart: unless-stopped
+    command: worker
+    depends_on:
+      - authentik-db
+      - authentik-redis
+    environment:
+      - AUTHENTIK_POSTGRESQL__HOST=authentik-db
+      - AUTHENTIK_POSTGRESQL__NAME=authentik
+      - AUTHENTIK_POSTGRESQL__USER=authentik
+      - AUTHENTIK_POSTGRESQL__PASSWORD=${AUTHENTIK_POSTGRESQL_PASSWORD}
+      - AUTHENTIK_REDIS__HOST=authentik-redis
+      - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY}
+      - AUTHENTIK_ERROR_REPORTING__ENABLED=true
+      - AUTHENTIK_LOG_LEVEL=info
+      - AUTHENTIK_WEB__TRUSTED_PROXIES=*
+      - AUTHENTIK_EMAIL__HOST=${EMAIL_HOST}
+      - AUTHENTIK_EMAIL__PORT=25
+      - AUTHENTIK_EMAIL__FROM=${EMAIL_FROM}
+    volumes:
+      - ./data:/data
+    networks:
+      - authentik-network
+    
+networks:
+  authentik-network:
+  myNetwork:
+    external: true
