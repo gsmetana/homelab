@@ -1,0 +1,25 @@
+services:
+  radarr:
+    container_name: radarr
+    image: linuxserver/radarr:latest
+    restart: unless-stopped
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - $CONFIGROOT/radarr:/config
+      - $MEDIAROOT:/media
+    labels:
+      - "traefik.enable=true"     
+      # web      
+      - "traefik.http.routers.radarr-https.rule=Host(`radarr.$DOMAINNAME`)"
+      - "traefik.http.routers.radarr-https.entrypoints=websecure"
+      - "traefik.http.routers.radarr-https.service=radarr-svc"
+      - "traefik.http.services.radarr-svc.loadbalancer.server.port=7878"
+
+networks:
+  default:
+    external: true
+    name: myNetwork
