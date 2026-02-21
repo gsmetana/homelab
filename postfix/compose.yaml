@@ -1,0 +1,27 @@
+services:
+  
+  postfixrelay:
+    image: loganmarchione/docker-postfixrelay:latest
+    container_name: postfix-relay
+    restart: always
+    environment:
+      - TZ=$TZ
+      - RELAY_HOST=in-v3.mailjet.com
+      - RELAY_PORT=587
+      - RELAY_USER=${RELAY_USER}
+      - RELAY_PASS=${RELAY_PASS}
+      # - RELAY_SUBMISSIONS=true
+      - TEST_EMAIL=${TEST_EMAIL}
+      # - TEST_EMAIL_SUBJECT=Destroy After Reading
+      - MYORIGIN=${DOMAINNAME}
+      - FROMADDRESS=${EMAIL_FROM}
+      # - MYNETWORKS=1.2.3.4/24
+      # - MSG_SIZE=30720000
+      # - LOG_DISABLE=true
+
+    ports:
+      - '25:25'
+
+volumes:
+  postfixrelay_data:
+    driver: local
