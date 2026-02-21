@@ -1,0 +1,26 @@
+services:
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+    volumes:
+      - $CONFIGROOT/jackett:/config
+      - $MEDIAROOT:/media
+
+    restart: unless-stopped
+    #network_mode: service:openvpn-client
+    labels:
+      - "traefik.enable=true"     
+      # web      
+      - "traefik.http.routers.jackett-https.rule=Host(`jackett.$DOMAINNAME`)"
+      - "traefik.http.routers.jackett-https.entrypoints=websecure"
+      - "traefik.http.routers.jackett-https.service=jackett-https"
+      - "traefik.http.services.jackett-https.loadbalancer.server.port=9117"
+
+networks:
+  default:
+    external: true
+    name: myNetwork
