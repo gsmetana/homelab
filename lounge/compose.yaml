@@ -1,0 +1,20 @@
+services:
+      
+  thelounge:
+    image: thelounge/thelounge:latest
+    container_name: thelounge
+    volumes:
+      - $CONFIGROOT/lounge:/var/opt/thelounge
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"     
+      # web      
+      - "traefik.http.routers.irc-https.rule=Host(`irc.$DOMAINNAME`)"
+      - "traefik.http.routers.irc-https.entrypoints=websecure"   
+      - "traefik.http.routers.irc-https.service=irc-https"
+      - "traefik.http.services.irc-https.loadbalancer.server.port=9000"
+
+networks:
+  default:
+    external: true
+    name: myNetwork
