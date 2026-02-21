@@ -1,0 +1,66 @@
+###############################################################
+# 
+# https://github.com/brokenscripts/authentik_traefik/tree/traefik3
+# 
+###############################################################
+services:
+
+  traefik:
+    image: traefik:v3.6.1
+    container_name: traefik
+    #user: ${PUID}:${PGID}
+    restart: unless-stopped
+    command:
+      - "--configFile=/config/traefik.yaml"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "$DOCKERDATA_MGR/traefik3/config:/config" # traefik.yaml
+      - "$DOCKERDATA_MGR/traefik3/data:/data"     # acme.json defined in traefik.yaml
+      - "$DOCKERDATA_MGR/traefik3/rules:/rules"   # Dynamic File Provider directory
+      - "$DOCKERDATA_MGR/traefik3/logs:/logs"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    environment:
+      CLOUDFLARE_DNS_API_TOKEN: ${CLOUDFLARE_DNS_API_TOKEN}
+      CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.${DOMAINNAME}`)"
+      - "traefik.http.routers.traefik-rtr.entrypoints=websecure"  # Defined in traefik.yaml
+      ## Services - API
+      - "traefik.http.routers.traefik-rtr.service=api@internal"
+      # Service hint
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+      ## Middlewares
+      - "traefik.http.routers.traefik-rtr.middlewares=middlewares-authentik@file"
+
+
+  traefik-redis:
+    image: docker.io/library/redis:alpine
+    command: --save 60 1 --loglevel warning
+    restart: unless-stopped
+    container_name: traefik-redis
+    volumes:
+      - "$DOCKERDATA_MGR/traefik3/redis/:/data"
+
+  mgr-whoami:
+    image: "traefik/whoami"
+    container_name: "mgr-whoami"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.mgr-rtr.rule=Host(`mgr.${DOMAINNAME}`)"
+      - "traefik.http.routers.mgr-rtr.entrypoints=websecure"
+      ## HTTP Services
+      - "traefik.http.routers.mgr-rtr.service=mgr-svc"
+      - "traefik.http.services.mgr-svc.loadBalancer.server.port=80"
+      ## Middlewares
+      - "traefik.http.routers.mgr-rtr.middlewares=middlewares-authentik@file"
+  
+networks:
+  default:
+    external: true
+    name: myNetwork
