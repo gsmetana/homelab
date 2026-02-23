@@ -2,3 +2,121 @@
 name = "mgr"
 [server.config]
 enabled = true
+
+[[server]]
+name = "nas"
+[server.config]
+address = "https://periphery-nas:8120"
+enabled = true
+
+[[stack]]
+name = "tautulli"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "tautulli"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+"""
+
+[[stack]]
+name = "termix"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "termix"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+"""
+
+[[stack]]
+name = "prowlarr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "prowlarr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+"""
+
+[[stack]]
+name = "omada"
+description = "I don't think traefik reverse proxy is working for this... may need to access at <mgr ip>:8043"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "omada"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+DOCKERDATA_MGR=[[DOCKERDATA_MGR]]
+"""
+
+[[stack]]
+name = "sonarr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "sonarr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+MEDIAROOT=[[MEDIAROOT]]
+"""
+
+[[stack]]
+name = "lidarr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "lidarr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+MEDIAROOT=[[MEDIAROOT]]
+"""
+
+[[stack]]
+name = "qbittorrent"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "qbittorrent"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+MEDIAROOT=[[MEDIAROOT]]
+
+GSP_GTN_API_KEY=[[GSP_GTN_API_KEY]]
+"""
+
+[[stack]]
+name = "qui"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "qui"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+MEDIAROOT=[[MEDIAROOT]]
+"""
