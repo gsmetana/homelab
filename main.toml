@@ -1,3 +1,18 @@
+[[repo]]
+name = "homelab"
+[repo.config]
+server = "mgr"
+builder = "Local"
+git_account = "gsmetana"
+repo = "gsmetana/homelab"
+
+[[resource_sync]]
+name = "homelab"
+[resource_sync.config]
+linked_repo = "homelab"
+resource_path = ["main.toml"]
+managed = true
+
 [[server]]
 name = "mgr"
 [server.config]
@@ -199,4 +214,141 @@ PUID=[[PUID]]
 PGID=[[PGID]]
 CONFIGROOT=[[CONFIGROOT]]
 MEDIAROOT=[[MEDIAROOT]]
+"""
+
+[[stack]]
+name = "plex"
+[stack.config]
+server = "nas"
+files_on_host = true
+environment = """
+  # VARIABLE = value
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+MEDIAROOT=[[MEDIAROOT]]
+"""
+
+[[stack]]
+name = "traefik-kop-nas"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "traefik-kop-nas"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+"""
+
+[[stack]]
+name = "jackett"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "jackett"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+MEDIAROOT=[[MEDIAROOT]]
+"""
+
+[[stack]]
+name = "vaultwarden"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "vaultwarden"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+EMAIL_HOST=[[EMAIL_HOST]]
+EMAIL_FROM=[[EMAIL_FROM]]
+"""
+
+[[stack]]
+name = "postfix"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "postfix"
+environment = """
+TZ=[[TZ]]
+RELAY_USER=[[RELAY_USER]]
+RELAY_PASS=[[RELAY_PASS]]
+TEST_EMAIL=[[TEST_EMAIL]]
+EMAIL_FROM=[[EMAIL_FROM]]
+DOMAINNAME=[[DOMAINNAME]]
+"""
+
+[[stack]]
+name = "bazarr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "bazarr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+MEDIAROOT=[[MEDIAROOT]]
+"""
+
+[[stack]]
+name = "gluetun"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "gluetun"
+pre_deploy.command = """
+GSP_GTN_API_KEY=[[GSP_GTN_API_KEY]]
+
+echo '[[roles]]' > config.toml
+echo 'name = "t-anc/GSP-Qbittorent-Gluetun-sync-port-mod"' >> config.toml
+echo 'routes = ["GET /v1/portforward"]' >> config.toml
+echo 'auth = "apikey"' >> config.toml
+echo 'apikey = "'$GSP_GTN_API_KEY'"' >> config.toml
+"""
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+MEDIAROOT=[[MEDIAROOT]]
+
+WIREGUARD_PRIVATE_KEY=[[WIREGUARD_PRIVATE_KEY]]
+"""
+
+[[stack]]
+name = "traefik"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "traefik"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+CLOUDFLARE_DNS_API_TOKEN=[[CLOUDFLARE_DNS_API_TOKEN]]
+CLOUDFLARE_EMAIL=[[CLOUDFLARE_EMAIL]]
+DOCKERDATA_MGR=[[DOCKERDATA_MGR]]
+"""
+
+[[stack]]
+name = "authentik"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "authentik"
+environment = """
+AUTHENTIK_POSTGRESQL_PASSWORD=[[AUTHENTIK_POSTGRESQL_PASSWORD]]
+AUTHENTIK_SECRET_KEY=[[AUTHENTIK_SECRET_KEY]]
+DOMAINNAME=[[DOMAINNAME]]
+EMAIL_HOST=[[EMAIL_HOST]]
+EMAIL_FROM=[[EMAIL_FROM]]
+
+DOCKERDATA_MGR=[[DOCKERDATA_MGR]]
 """
