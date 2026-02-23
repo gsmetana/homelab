@@ -1,0 +1,29 @@
+services:
+  lsa-raid:
+    container_name: lsa-raid
+    privileged: true
+    restart: always
+    volumes:
+      - $CONFIGROOT/raid/conf:/opt/lsi/LSIStorageAuthority/conf
+      - $CONFIGROOT/raid/logs:/opt/lsi/LSIStorageAuthority/logs
+    #ports:
+    #  - 2463:2463
+    #  - 9000:9000
+    environment:
+      - TZ=$TZ
+      - ROOT_PASSWORD=${LSA_ROOT_PASSWORD}
+      - WEB_PORT=2463
+      - LSA_PORT=9000
+    image: mecjay12/lsa
+    labels:
+      - "traefik.enable=true"     
+      # web      
+      - "traefik.http.routers.raid-rtr.rule=Host(`raid.$DOMAINNAME`)"
+      - "traefik.http.routers.raid-rtr.entrypoints=websecure"
+      - "traefik.http.routers.raid-rtr.service=raid-svc"
+      - "traefik.http.services.raid-svc.loadbalancer.server.port=2463" 
+
+networks:
+  default:
+    external: true
+    name: myNetwork  
