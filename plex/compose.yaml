@@ -1,0 +1,30 @@
+services:
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker
+    restart: unless-stopped
+    environment:
+      - TZ=$TZ
+      - PUID=$PUID
+      - PGID=$PGID
+#      - PLEX_CLAIM=<claimToken>
+      - VERSION=docker
+    network_mode: host
+    volumes:
+          - $CONFIGROOT/plex:/config
+          - $MEDIAROOT:/transcode
+          - $MEDIAROOT/TV:/tv
+          - $MEDIAROOT/TV1:/tv1
+          - $MEDIAROOT/TV2:/tv2
+          - $MEDIAROOT/TV3:/tv3
+          - $MEDIAROOT/TV4:/tv4
+          - $MEDIAROOT/movies1:/movies1
+          - $MEDIAROOT/movies2:/movies2
+          - $MEDIAROOT/movies3:/movies3
+          - $MEDIAROOT/movies4:/movies4
+          - $MEDIAROOT/Music:/music
+
+networks:
+  default:
+    external: true
+    name: myNetwork
