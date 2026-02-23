@@ -24,6 +24,12 @@ name = "nas"
 address = "https://periphery-nas:8120"
 enabled = true
 
+[[builder]]
+name = "Local"
+[builder.config]
+type = "Server"
+params.server_id = "mgr"
+
 [[stack]]
 name = "tautulli"
 [stack.config]
@@ -352,3 +358,48 @@ EMAIL_FROM=[[EMAIL_FROM]]
 
 DOCKERDATA_MGR=[[DOCKERDATA_MGR]]
 """
+
+[[stack]]
+name = "proxbackup-nas"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "proxbackup-nas"
+environment = """
+TZ=[[TZ]]
+CONFIGROOT=[[CONFIGROOT]]
+RAIDROOT=[[RAIDROOT]]
+PBS_ENDPOINT=[[PBS_ENDPOINT]]
+PBS_DATASTORE=[[PBS_DATASTORE]]
+PBS_API_KEY_NAME=[[PBS_API_KEY_NAME]]
+PBS_API_KEY_SECRET=[[PBS_API_KEY_SECRET]]
+PBS_FINGERPRINT=[[PBS_FINGERPRINT]]
+
+TS_AUTHKEY=[[TS_AUTHKEY]]
+"""
+
+[[procedure]]
+name = "Backup Core Database"
+description = "Triggers the Core database backup at the scheduled time."
+tags = ["system"]
+config.schedule = "Every day at 01:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "BackupCoreDatabase", execution.params = {}, enabled = true }
+]
+
+[[procedure]]
+name = "Global Auto Update"
+description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
+tags = ["system"]
+config.schedule = "Every day at 03:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true }
+]
