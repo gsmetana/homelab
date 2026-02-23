@@ -120,3 +120,83 @@ PGID=[[PGID]]
 CONFIGROOT=[[CONFIGROOT]]
 MEDIAROOT=[[MEDIAROOT]]
 """
+
+[[stack]]
+name = "firefox"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "firefox"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+"""
+
+[[stack]]
+name = "lsa-raid"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "lsa-raid"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+CONFIGROOT=[[CONFIGROOT]]
+LSA_ROOT_PASSWORD=[[LSA_ROOT_PASSWORD]]
+"""
+
+[[stack]]
+name = "lounge"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "lounge"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+"""
+
+[[stack]]
+name = "overseerr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "overseerr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+"""
+
+[[stack]]
+name = "cloudflared"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "cloudflared"
+environment = """
+TUNNEL_TOKEN=[[CF_TUNNEL_TOKEN]]
+"""
+
+[[stack]]
+name = "radarr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "radarr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+CONFIGROOT=[[CONFIGROOT]]
+MEDIAROOT=[[MEDIAROOT]]
+"""
