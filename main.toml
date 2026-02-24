@@ -6,6 +6,14 @@ builder = "Local"
 git_account = "gsmetana"
 repo = "gsmetana/homelab"
 
+[[repo]]
+name = "terraforming-mars"
+[repo.config]
+server = "nas"
+builder = "Local"
+git_account = "gsmetana"
+repo = "terraforming-mars/terraforming-mars"
+
 [[resource_sync]]
 name = "homelab"
 [resource_sync.config]
@@ -29,6 +37,33 @@ name = "Local"
 [builder.config]
 type = "Server"
 params.server_id = "mgr"
+
+[[build]]
+name = "terraforming-mars"
+[build.config]
+builder = "Local"
+linked_repo = "terraforming-mars"
+
+[[deployment]]
+name = "terraforming-mars"
+[deployment.config]
+server = "mgr"
+image.type = "Build"
+image.params.build = "terraforming-mars"
+network = "myNetwork"
+restart = "unless-stopped"
+environment = """
+  
+"""
+labels = """
+- "traefik.enable=true"     
+# web      
+- "traefik.http.routers.mars-https.rule=Host(\`mars.[[DOMAINNAME]]\`)"
+- "traefik.http.routers.mars-https.entrypoints=websecure"
+- "traefik.http.routers.mars-https.service=mars-https"
+- "traefik.http.services.mars-https.loadbalancer.server.port=8080"
+"""
+
 
 [[stack]]
 name = "tautulli"
