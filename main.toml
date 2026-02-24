@@ -226,9 +226,9 @@ MEDIAROOT=[[MEDIAROOT]]
 name = "plex"
 [stack.config]
 server = "nas"
-files_on_host = true
+linked_repo = "homelab"
+run_directory = "plex"
 environment = """
-  # VARIABLE = value
 DOMAINNAME=[[DOMAINNAME]]
 TZ=[[TZ]]
 PUID=[[PUID]]
