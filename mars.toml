@@ -1,1 +1,33 @@
-## Add resources to get started
+[[repo]]
+name = "terraforming-mars"
+[repo.config]
+server = "nas"
+builder = "Local"
+git_account = "gsmetana"
+repo = "terraforming-mars/terraforming-mars"
+
+[[build]]
+name = "terraforming-mars"
+[build.config]
+builder = "Local"
+linked_repo = "terraforming-mars"
+
+[[deployment]]
+name = "terraforming-mars"
+[deployment.config]
+server = "mgr"
+image.type = "Build"
+image.params.build = "terraforming-mars"
+network = "myNetwork"
+restart = "unless-stopped"
+environment = """
+  
+"""
+labels = """
+- "traefik.enable=true"     
+# web      
+- "traefik.http.routers.mars-https.rule=Host(\`mars.[[DOMAINNAME]]\`)"
+- "traefik.http.routers.mars-https.entrypoints=websecure"
+- "traefik.http.routers.mars-https.service=mars-https"
+- "traefik.http.services.mars-https.loadbalancer.server.port=8080"
+"""
