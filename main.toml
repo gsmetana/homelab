@@ -10,7 +10,11 @@ repo = "gsmetana/homelab"
 name = "homelab"
 [resource_sync.config]
 linked_repo = "homelab"
-resource_path = ["main.toml"]
+resource_path = [
+  "main.toml",
+  "mars.toml",
+  "stacks.toml"
+]
 managed = true
 
 [[server]]
