@@ -3,6 +3,7 @@ services:
     image: tailscale/tailscale:latest
     container_name: tailscale-proxbackup
     #hostname: tailscale-proxbackup
+    hostname: tailscale-pbs
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale # Persistent entry TS Machines, not Epehmeral
