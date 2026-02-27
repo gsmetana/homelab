@@ -304,6 +304,16 @@ name = "traefik"
 server = "mgr"
 linked_repo = "homelab"
 run_directory = "traefik"
+config_files = [
+  { path = "config/traefik.template" },
+  { path = "rules/middlewares-authentik.template" },
+  { path = "rules/external.template" }
+]
+pre_deploy.command = """
+sed -e 's/$DOMAINNAME/[[DOMAINNAME]]/g' -e 's/$CLOUDFLARE_EMAIL/[[CLOUDFLARE_EMAIL]]/g' config/traefik.template > config/traefik.yaml
+sed -e 's/$DOMAINNAME/[[DOMAINNAME]]/g' -e 's/$ROUTER_IP/[[ROUTER_IP]]/g' -e 's/$PROXMOX_IP/[[PROXMOX_IP]]/g' rules/external.template > rules/external.yaml
+sed -e 's/$DOMAINNAME/[[DOMAINNAME]]/g'  rules/middlewares-authentik.template > rules/middlewares-authentik.yaml
+"""
 environment = """
 DOMAINNAME=[[DOMAINNAME]]
 CLOUDFLARE_DNS_API_TOKEN=[[CLOUDFLARE_DNS_API_TOKEN]]
