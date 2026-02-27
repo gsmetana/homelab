@@ -31,6 +31,11 @@ Komodo is used to manage secrets, but no sensitive configuration is located in t
 To setup a new server machine:
 
 1. Install Proxmox
+
+Run post-install script
+```
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh)"
+```
 2. Install Tailscale
 
 Add repo:
@@ -77,8 +82,14 @@ docker swarm join-token worker
 
 9. (If manager) Komodo Resource Sync 
 
-## TODO
-- Document SSH key distribution & root login
+10. Configure SSH keys
+
+For each environment, as root
+```
+apt-get install ssh-import-id
+ssh-import-id-gh gsmetana
+```
+The credential private key is stored in the Termix container
 
 ## Previous Incarnations of the homelab 
 
