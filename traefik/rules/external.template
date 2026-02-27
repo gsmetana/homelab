@@ -5,6 +5,12 @@ http:
       insecureSkipVerify: true
 
   routers:
+    komodo:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`komodo.$DOMAINNAME`)"
+      service: komodo
+
     proxmox:
       entryPoints:
         - "websecure"
@@ -24,6 +30,11 @@ http:
       service: opnsense
   
   services:
+    komodo:
+      loadBalancer:
+        servers:
+          - url: "http://komodo_core:9120"
+
     proxmox:
       loadBalancer:
         serversTransport: mytransport
