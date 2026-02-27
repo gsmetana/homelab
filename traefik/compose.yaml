@@ -16,9 +16,9 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "$DOCKERDATA_MGR/traefik3/config:/config" # traefik.yaml
+      - "./config:/config" # traefik.yaml
+      - "./rules:/rules"   # Dynamic File Provider directory
       - "$DOCKERDATA_MGR/traefik3/data:/data"     # acme.json defined in traefik.yaml
-      - "$DOCKERDATA_MGR/traefik3/rules:/rules"   # Dynamic File Provider directory
       - "$DOCKERDATA_MGR/traefik3/logs:/logs"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     environment:
