@@ -1,1 +1,5 @@
 .env
+
+traefik/config/traefik.yaml
+traefik/rules/external.yaml
+traefik/rules/middlewares-authentik.yaml
