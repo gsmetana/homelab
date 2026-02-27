@@ -1,0 +1,41 @@
+http:
+
+  serversTransports:
+    mytransport:
+      insecureSkipVerify: true
+
+  routers:
+    proxmox:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`proxmox.$DOMAINNAME`)"
+      service: proxmox
+    
+    adguard:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`adguard.$DOMAINNAME`)"
+      service: adguard
+
+    opnsense:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`opnsense.$DOMAINNAME`)"
+      service: opnsense
+  
+  services:
+    proxmox:
+      loadBalancer:
+        serversTransport: mytransport
+        servers:
+          - url: "https://$PROXMOX_IP:8006"
+
+    adguard:
+      loadBalancer:
+        servers:
+          - url: "http://$ROUTER_IP:8080/"
+          
+    opnsense:
+      loadBalancer:
+        servers:
+          - url: "http://$ROUTER_IP"     
