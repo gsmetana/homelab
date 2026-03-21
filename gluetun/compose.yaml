@@ -22,7 +22,7 @@ services:
       - VPN_PORT_FORWARDING=on  # Enables automatic port forwarding (needed for torrenting)
       - TZ=${TZ}  # Sets the timezone for correct timestamps in logs
     volumes:
-      - $DOCKERDATA_NAS/gluetun:/gluetun # Stores VPN configuration persistently
+      - $CONFIGROOT/gluetun:/gluetun # Stores VPN configuration persistently
       - "./config.toml:/gluetun/auth/config.toml:ro"
     #expose:
     #- 8112
