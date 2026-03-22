@@ -11,7 +11,7 @@ services:
       - VERSION=docker
     network_mode: host
     volumes:
-          - $CONFIGROOT/plex:/config
+          - $MEDIAROOT/PlexData:/config
           - $MEDIAROOT:/transcode
           - $MEDIAROOT/TV:/tv
           - $MEDIAROOT/TV1:/tv1
