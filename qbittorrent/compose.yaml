@@ -14,12 +14,12 @@ services:
      # 🔄 Port Forwarding Mod (Syncs qBittorrent with Gluetun)
       - DOCKER_MODS=ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main
       - GSP_GTN_API_KEY=${GSP_GTN_API_KEY}  # API key for port forwarding updates
-      - GSP_QBITTORRENT_PORT=${GSP_QBITTORRENT_PORT:-53765}  # Torrenting port (auto-updated by Gluetun)
+      - GSP_GTN_PORT_INDEX = 1
       - GSP_MINIMAL_LOGS=false  # Enables full logs for debugging purposes
     volumes:
       - $CONFIGROOT/qbittorrent/qb-video:/config
       - $MEDIAROOT:/media
-    network_mode: "container:gluetun1"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
+    network_mode: "container:gluetun"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
     
     #depends_on:
     #  gluetun:
@@ -53,12 +53,12 @@ services:
      # 🔄 Port Forwarding Mod (Syncs qBittorrent with Gluetun)
       - DOCKER_MODS=ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main
       - GSP_GTN_API_KEY=${GSP_GTN_API_KEY}  # API key for port forwarding updates
-      - GSP_QBITTORRENT_PORT=${GSP_QBITTORRENT_PORT:-53765}  # Torrenting port (auto-updated by Gluetun)
+      - GSP_GTN_PORT_INDEX = 2
       - GSP_MINIMAL_LOGS=false  # Enables full logs for debugging purposes
     volumes:
       - $CONFIGROOT/qbittorrent/qb-audio:/config
       - $MEDIAROOT:/media
-    network_mode: "container:gluetun2"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
+    network_mode: "container:gluetun"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
     
     #depends_on:
     #  gluetun:
@@ -92,12 +92,12 @@ services:
      # 🔄 Port Forwarding Mod (Syncs qBittorrent with Gluetun)
       - DOCKER_MODS=ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main
       - GSP_GTN_API_KEY=${GSP_GTN_API_KEY}  # API key for port forwarding updates
-      - GSP_QBITTORRENT_PORT=${GSP_QBITTORRENT_PORT:-53765}  # Torrenting port (auto-updated by Gluetun)
+      - GSP_GTN_PORT_INDEX = 3
       - GSP_MINIMAL_LOGS=false  # Enables full logs for debugging purposes
     volumes:
       - $CONFIGROOT/qbittorrent/qb-other:/config
       - $MEDIAROOT:/media
-    network_mode: "container:gluetun3"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
+    network_mode: "container:gluetun"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
     
     #depends_on:
     #  gluetun:
