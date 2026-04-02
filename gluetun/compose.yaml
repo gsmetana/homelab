@@ -1,7 +1,8 @@
 services:
 
   gluetun:
-    image: ghcr.io/qdm12/gluetun:latest  # Uses the latest Gluetun VPN image
+    #image: ghcr.io/qdm12/gluetun:latest  # Uses the latest Gluetun VPN image
+    image: qmcgaw/gluetun:pr-3208
     container_name: gluetun  # Assigns a fixed name to the container for easy reference
     restart: unless-stopped  # Ensures Gluetun restarts if it crashes
     cap_add:
@@ -20,6 +21,7 @@ services:
       #- SERVER_COUNTRIES=${SERVER_COUNTRIES}  # Preferred VPN server country selection
       #- SERVER_CITIES=${SERVER_CITIES}  # (Optional) Restrict to a specific city
       - VPN_PORT_FORWARDING=on  # Enables automatic port forwarding (needed for torrenting)
+      - VPN_PORT_FORWARDING_PORTS_COUNT=3
       - TZ=${TZ}  # Sets the timezone for correct timestamps in logs
     volumes:
       - $CONFIGROOT/gluetun:/gluetun # Stores VPN configuration persistently
