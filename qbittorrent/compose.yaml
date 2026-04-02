@@ -1,23 +1,23 @@
 services:
 
-  qbittorrent:
+  qb-video:
     #image: lscr.io/linuxserver/qbittorrent:4.6.2-r0-ls302
     image: lscr.io/linuxserver/qbittorrent:5.0.2-r0-ls367
-    container_name: qbittorrent
+    container_name: qb-video
     environment:
       - PUID=$PUID
       - PGID=$PGID
       - TZ=$TZ
-      - WEBUI_PORT=8112
+      - WEBUI_PORT=8113
       - QBITTORRENT_INTERFACE=tun0  # 🔒 Forces all traffic through VPN interface
      
      # 🔄 Port Forwarding Mod (Syncs qBittorrent with Gluetun)
       - DOCKER_MODS=ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main
-      - GSP_GTN_API_KEY=${GSP_GTN_API_KEY:-randomapikey}  # API key for port forwarding updates
-      - GSP_QBITTORRENT_PORT=${GSP_QBITTORRENT_PORT:-53764}  # Torrenting port (auto-updated by Gluetun)
+      - GSP_GTN_API_KEY=${GSP_GTN_API_KEY}  # API key for port forwarding updates
+      - GSP_QBITTORRENT_PORT=${GSP_QBITTORRENT_PORT:-53765}  # Torrenting port (auto-updated by Gluetun)
       - GSP_MINIMAL_LOGS=false  # Enables full logs for debugging purposes
     volumes:
-      - $CONFIGROOT/qbittorrent:/config
+      - $CONFIGROOT/qbittorrent/qb-video:/config
       - $MEDIAROOT:/media
     network_mode: "container:gluetun"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
     
@@ -29,17 +29,95 @@ services:
     labels:
       - "traefik.enable=true"   
       # web      
-      - "traefik.http.routers.qbittorrent-rtr.rule=Host(`qbittorrent.$DOMAINNAME`)"
-      - "traefik.http.routers.qbittorrent-rtr.entrypoints=websecure"
-      - "traefik.http.routers.qbittorrent-rtr.service=qbittorrent-svc"
-      - "traefik.http.services.qbittorrent-svc.loadbalancer.server.port=8112"
+      - "traefik.http.routers.qb-video-rtr.rule=Host(`qb-video.$DOMAINNAME`)"
+      - "traefik.http.routers.qb-video-rtr.entrypoints=websecure"
+      - "traefik.http.routers.qb-video-rtr.service=qb-video-svc"
+      - "traefik.http.services.qb-video-svc.loadbalancer.server.port=8113"
     # ─── Performance Optimization ──────────────────────────────────────
     ulimits:
       nofile:
         soft: 32768
         hard: 65536  # Increases allowed open files (important for high-speed torrenting)
 
+  qb-audio:
+    #image: lscr.io/linuxserver/qbittorrent:4.6.2-r0-ls302
+    image: lscr.io/linuxserver/qbittorrent:5.0.2-r0-ls367
+    container_name: qb-audio
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+      - WEBUI_PORT=8114
+      - QBITTORRENT_INTERFACE=tun0  # 🔒 Forces all traffic through VPN interface
+     
+     # 🔄 Port Forwarding Mod (Syncs qBittorrent with Gluetun)
+      - DOCKER_MODS=ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main
+      - GSP_GTN_API_KEY=${GSP_GTN_API_KEY}  # API key for port forwarding updates
+      - GSP_QBITTORRENT_PORT=${GSP_QBITTORRENT_PORT:-53765}  # Torrenting port (auto-updated by Gluetun)
+      - GSP_MINIMAL_LOGS=false  # Enables full logs for debugging purposes
+    volumes:
+      - $CONFIGROOT/qbittorrent/qb-audio:/config
+      - $MEDIAROOT:/media
+    network_mode: "container:gluetun"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
+    
+    #depends_on:
+    #  gluetun:
+    #    condition: service_healthy  # Ensures qBittorrent starts only when the VPN is fully functional
+    
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"   
+      # web      
+      - "traefik.http.routers.qb-audio-rtr.rule=Host(`qb-audio.$DOMAINNAME`)"
+      - "traefik.http.routers.qb-audio-rtr.entrypoints=websecure"
+      - "traefik.http.routers.qb-audio-rtr.service=qb-audio-svc"
+      - "traefik.http.services.qb-audio-svc.loadbalancer.server.port=8114"
+    # ─── Performance Optimization ──────────────────────────────────────
+    ulimits:
+      nofile:
+        soft: 32768
+        hard: 65536  # Increases allowed open files (important for high-speed torrenting)
+
+  qb-other:
+    #image: lscr.io/linuxserver/qbittorrent:4.6.2-r0-ls302
+    image: lscr.io/linuxserver/qbittorrent:5.0.2-r0-ls367
+    container_name: qb-other
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - TZ=$TZ
+      - WEBUI_PORT=8115
+      - QBITTORRENT_INTERFACE=tun0  # 🔒 Forces all traffic through VPN interface
+     
+     # 🔄 Port Forwarding Mod (Syncs qBittorrent with Gluetun)
+      - DOCKER_MODS=ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main
+      - GSP_GTN_API_KEY=${GSP_GTN_API_KEY}  # API key for port forwarding updates
+      - GSP_QBITTORRENT_PORT=${GSP_QBITTORRENT_PORT:-53765}  # Torrenting port (auto-updated by Gluetun)
+      - GSP_MINIMAL_LOGS=false  # Enables full logs for debugging purposes
+    volumes:
+      - $CONFIGROOT/qbittorrent/qb-other:/config
+      - $MEDIAROOT:/media
+    network_mode: "container:gluetun"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
+    
+    #depends_on:
+    #  gluetun:
+    #    condition: service_healthy  # Ensures qBittorrent starts only when the VPN is fully functional
+    
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"   
+      # web      
+      - "traefik.http.routers.qb-other-rtr.rule=Host(`qb-other.$DOMAINNAME`)"
+      - "traefik.http.routers.qb-other-rtr.entrypoints=websecure"
+      - "traefik.http.routers.qb-other-rtr.service=qb-other-svc"
+      - "traefik.http.services.qb-other-svc.loadbalancer.server.port=8115"
+    # ─── Performance Optimization ──────────────────────────────────────
+    ulimits:
+      nofile:
+        soft: 32768
+        hard: 65536  # Increases allowed open files (important for high-speed torrenting)
 
 networks:
   myNetwork:
     external: true
+
