@@ -1,8 +1,8 @@
 services:
 
-  gluetun:
+  gluetun1:
     image: ghcr.io/qdm12/gluetun:latest  # Uses the latest Gluetun VPN image
-    container_name: gluetun  # Assigns a fixed name to the container for easy reference
+    container_name: gluetun1  # Assigns a fixed name to the container for easy reference
     restart: unless-stopped  # Ensures Gluetun restarts if it crashes
     cap_add:
       - NET_ADMIN  # Grants networking privileges required for VPN operation
@@ -22,7 +22,79 @@ services:
       - VPN_PORT_FORWARDING=on  # Enables automatic port forwarding (needed for torrenting)
       - TZ=${TZ}  # Sets the timezone for correct timestamps in logs
     volumes:
-      - $CONFIGROOT/gluetun:/gluetun # Stores VPN configuration persistently
+      - $CONFIGROOT/gluetun/1:/gluetun # Stores VPN configuration persistently
+      - "./config.toml:/gluetun/auth/config.toml:ro"
+    #expose:
+    #- 8112
+    #- 3000
+    networks:
+      - myNetwork
+
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://google.com"]  # Checks if the VPN connection is active
+      interval: 30s  # Runs every 30 seconds
+      timeout: 10s  # Fails if it takes longer than 10 seconds
+      retries: 3  # Allows 3 failures before marking the container as unhealthy
+
+  gluetun2:
+    image: ghcr.io/qdm12/gluetun:latest  # Uses the latest Gluetun VPN image
+    container_name: gluetun2  # Assigns a fixed name to the container for easy reference
+    restart: unless-stopped  # Ensures Gluetun restarts if it crashes
+    cap_add:
+      - NET_ADMIN  # Grants networking privileges required for VPN operation
+    devices:
+      - /dev/net/tun:/dev/net/tun  # Enables VPN tunneling inside the container
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=1  # Disables IPv6 to prevent leaks
+    environment:
+      - DNS_UPSTREAM_RESOLVERS=quad9
+      - DNS_UPSTREAM_RESOLVER_TYPE=doh
+      - BLOCK_MALICIOUS=off
+      - VPN_SERVICE_PROVIDER=protonvpn  # Specifies ProtonVPN as the VPN provider
+      - VPN_TYPE=wireguard  # Uses WireGuard as the VPN protocol
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}  # Private key for authentication (from .env)
+      #- SERVER_COUNTRIES=${SERVER_COUNTRIES}  # Preferred VPN server country selection
+      #- SERVER_CITIES=${SERVER_CITIES}  # (Optional) Restrict to a specific city
+      - VPN_PORT_FORWARDING=on  # Enables automatic port forwarding (needed for torrenting)
+      - TZ=${TZ}  # Sets the timezone for correct timestamps in logs
+    volumes:
+      - $CONFIGROOT/gluetun/2:/gluetun # Stores VPN configuration persistently
+      - "./config.toml:/gluetun/auth/config.toml:ro"
+    #expose:
+    #- 8112
+    #- 3000
+    networks:
+      - myNetwork
+
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://google.com"]  # Checks if the VPN connection is active
+      interval: 30s  # Runs every 30 seconds
+      timeout: 10s  # Fails if it takes longer than 10 seconds
+      retries: 3  # Allows 3 failures before marking the container as unhealthy
+
+  gluetun3:
+    image: ghcr.io/qdm12/gluetun:latest  # Uses the latest Gluetun VPN image
+    container_name: gluetun2  # Assigns a fixed name to the container for easy reference
+    restart: unless-stopped  # Ensures Gluetun restarts if it crashes
+    cap_add:
+      - NET_ADMIN  # Grants networking privileges required for VPN operation
+    devices:
+      - /dev/net/tun:/dev/net/tun  # Enables VPN tunneling inside the container
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=1  # Disables IPv6 to prevent leaks
+    environment:
+      - DNS_UPSTREAM_RESOLVERS=quad9
+      - DNS_UPSTREAM_RESOLVER_TYPE=doh
+      - BLOCK_MALICIOUS=off
+      - VPN_SERVICE_PROVIDER=protonvpn  # Specifies ProtonVPN as the VPN provider
+      - VPN_TYPE=wireguard  # Uses WireGuard as the VPN protocol
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}  # Private key for authentication (from .env)
+      #- SERVER_COUNTRIES=${SERVER_COUNTRIES}  # Preferred VPN server country selection
+      #- SERVER_CITIES=${SERVER_CITIES}  # (Optional) Restrict to a specific city
+      - VPN_PORT_FORWARDING=on  # Enables automatic port forwarding (needed for torrenting)
+      - TZ=${TZ}  # Sets the timezone for correct timestamps in logs
+    volumes:
+      - $CONFIGROOT/gluetun/3:/gluetun # Stores VPN configuration persistently
       - "./config.toml:/gluetun/auth/config.toml:ro"
     #expose:
     #- 8112
