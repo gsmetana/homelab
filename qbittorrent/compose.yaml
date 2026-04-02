@@ -19,7 +19,7 @@ services:
     volumes:
       - $CONFIGROOT/qbittorrent/qb-video:/config
       - $MEDIAROOT:/media
-    network_mode: "container:gluetun"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
+    network_mode: "container:gluetun1"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
     
     #depends_on:
     #  gluetun:
@@ -58,7 +58,7 @@ services:
     volumes:
       - $CONFIGROOT/qbittorrent/qb-audio:/config
       - $MEDIAROOT:/media
-    network_mode: "container:gluetun"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
+    network_mode: "container:gluetun2"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
     
     #depends_on:
     #  gluetun:
@@ -97,7 +97,7 @@ services:
     volumes:
       - $CONFIGROOT/qbittorrent/qb-other:/config
       - $MEDIAROOT:/media
-    network_mode: "container:gluetun"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
+    network_mode: "container:gluetun3"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
     
     #depends_on:
     #  gluetun:
@@ -120,4 +120,3 @@ services:
 networks:
   myNetwork:
     external: true
-
