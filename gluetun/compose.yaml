@@ -74,7 +74,7 @@ services:
 
   gluetun3:
     image: ghcr.io/qdm12/gluetun:latest  # Uses the latest Gluetun VPN image
-    container_name: gluetun2  # Assigns a fixed name to the container for easy reference
+    container_name: gluetun3  # Assigns a fixed name to the container for easy reference
     restart: unless-stopped  # Ensures Gluetun restarts if it crashes
     cap_add:
       - NET_ADMIN  # Grants networking privileges required for VPN operation
