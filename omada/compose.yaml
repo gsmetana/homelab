@@ -11,8 +11,8 @@ services:
       - PORTAL_HTTPS_PORT=8843
     #  - TZ=$TZ
     volumes:
-      - $DOCKERDATA_MGR/omada/data:/opt/tplink/EAPController/data
-      - $DOCKERDATA_MGR/omada/logs:/opt/tplink/EAPController/logs
+      - $DOCKERDATA/data:/opt/tplink/EAPController/data
+      - $DOCKERDATA/logs:/opt/tplink/EAPController/logs
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.omada-https.rule=Host(`omada.$DOMAINNAME`)"

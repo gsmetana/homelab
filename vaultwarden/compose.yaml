@@ -12,7 +12,7 @@ services:
       - SMTP_PORT=25
       - SMTP_SECURITY=off
     volumes:
-      - $DOCKERDATA_MGR/vaultwarden:/data
+      - $DOCKERDATA:/data
     labels:
       - "traefik.enable=true"
       # web      

@@ -18,8 +18,8 @@ services:
     volumes:
       - "./config:/config" # traefik.yaml
       - "./rules:/rules"   # Dynamic File Provider directory
-      - "$DOCKERDATA_MGR/traefik3/data:/data"     # acme.json defined in traefik.yaml
-      - "$DOCKERDATA_MGR/traefik3/logs:/logs"
+      - "$DOCKERDATA/data:/data"     # acme.json defined in traefik.yaml
+      - "$DOCKERDATA/logs:/logs"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     environment:
       CLOUDFLARE_DNS_API_TOKEN: ${CLOUDFLARE_DNS_API_TOKEN}
@@ -43,7 +43,7 @@ services:
     restart: unless-stopped
     container_name: traefik-redis
     volumes:
-      - "$DOCKERDATA_MGR/traefik3/redis/:/data"
+      - "$DOCKERDATA/redis/:/data"
 
   mgr-whoami:
     image: "traefik/whoami"
