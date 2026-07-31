@@ -9,15 +9,15 @@ services:
       - TZ=$TZ
       - UMASK_SET=022 #optional
     volumes:
-      - $CONFIGROOT/bazarr:/config
+      - $DOCKERDATA:/config
       - $MEDIAROOT:/media
     labels:
       - "traefik.enable=true"     
       # web      
-      - "traefik.http.routers.bazarr-https.rule=Host(`bazarr.$DOMAINNAME`)"
-      - "traefik.http.routers.bazarr-https.entrypoints=websecure"
-      - "traefik.http.routers.bazarr-https.service=bazarr-https"
-      - "traefik.http.services.bazarr-https.loadbalancer.server.port=6767" 
+      - "traefik.http.routers.bazarr-rtr.rule=Host(`bazarr.$DOMAINNAME`)"
+      - "traefik.http.routers.bazarr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.bazarr-rtr.service=bazarr-svc"
+      - "traefik.http.services.bazarr-svc.loadbalancer.server.port=6767" 
 
 networks:
   default:

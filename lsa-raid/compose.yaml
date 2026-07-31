@@ -4,8 +4,8 @@ services:
     privileged: true
     restart: always
     volumes:
-      - $CONFIGROOT/raid/conf:/opt/lsi/LSIStorageAuthority/conf
-      - $CONFIGROOT/raid/logs:/opt/lsi/LSIStorageAuthority/logs
+      - $DOCKERDATA/conf:/opt/lsi/LSIStorageAuthority/conf
+      - $DOCKERDATA/logs:/opt/lsi/LSIStorageAuthority/logs
     #ports:
     #  - 2463:2463
     #  - 9000:9000

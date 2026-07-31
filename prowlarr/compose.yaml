@@ -1,7 +1,7 @@
 services:
   prowlarr:
     container_name: prowlarr
-    image: ghcr.io/linuxserver/prowlarr:develop
+    image: ghcr.io/linuxserver/prowlarr:latest
     restart: unless-stopped
     environment:
       - PUID=$PUID
@@ -9,14 +9,14 @@ services:
       - TZ=$TZ
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $CONFIGROOT/prowlarr:/config
+      - $DOCKERDATA:/config
     labels:
       - "traefik.enable=true"   
       # web      
-      - "traefik.http.routers.prowlarr-https.rule=Host(`prowlarr.$DOMAINNAME`)"
-      - "traefik.http.routers.prowlarr-https.entrypoints=websecure"
-      - "traefik.http.routers.prowlarr-https.service=prowlarr-https"
-      - "traefik.http.services.prowlarr-https.loadbalancer.server.port=9696"
+      - "traefik.http.routers.prowlarr-rtr.rule=Host(`prowlarr.$DOMAINNAME`)"
+      - "traefik.http.routers.prowlarr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.prowlarr-rtr.service=prowlarr-svc"
+      - "traefik.http.services.prowlarr-svc.loadbalancer.server.port=9696"
 
 networks:
   default:

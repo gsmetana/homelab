@@ -7,14 +7,14 @@ services:
       - PGID=$PGID
       - TZ=$TZ
     volumes:
-      - $CONFIGROOT/tautulli:/config
+      - $DOCKERDATA:/config
     restart: unless-stopped
     labels:
       - "traefik.enable=true"     
       # web      
-      - "traefik.http.routers.tautulli-https.rule=Host(`tautulli.$DOMAINNAME`)"
-      - "traefik.http.routers.tautulli-https.entrypoints=websecure"
-      - "traefik.http.routers.tautulli-https.service=tautulli-svc"
+      - "traefik.http.routers.tautulli-rtr.rule=Host(`tautulli.$DOMAINNAME`)"
+      - "traefik.http.routers.tautulli-rtr.entrypoints=websecure"
+      - "traefik.http.routers.tautulli-rtr.service=tautulli-svc"
       - "traefik.http.services.tautulli-svc.loadbalancer.server.port=8181"   
 
 networks:

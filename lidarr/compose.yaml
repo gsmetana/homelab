@@ -1,25 +1,22 @@
 services:
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
-    #image: blampe/lidarr:lidarr-plugins-2.13.0.4661
     container_name: lidarr
     environment:
       - PUID=$PUID
       - PGID=$PGID
       - TZ=$TZ
     volumes:
-      - $CONFIGROOT/lidarr:/config
+      - $DOCKERDATA:/config
       - $MEDIAROOT:/media
     restart: unless-stopped
-    #network_mode: service:openvpn-client
     labels:
       - "traefik.enable=true"     
       # web   
-      - "traefik.http.routers.lidarr-https.rule=Host(`lidarr.$DOMAINNAME`)"
-      - "traefik.http.routers.lidarr-https.entrypoints=websecure"
-      - "traefik.http.routers.lidarr-https.service=lidarr-https"
-      - "traefik.http.services.lidarr-https.loadbalancer.server.port=8686"
-
+      - "traefik.http.routers.lidarr-rtr.rule=Host(`lidarr.$DOMAINNAME`)"
+      - "traefik.http.routers.lidarr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.lidarr-rtr.service=lidarr-svc"
+      - "traefik.http.services.lidarr-svc.loadbalancer.server.port=8686"
 
 networks:
   default:

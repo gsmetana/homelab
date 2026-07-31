@@ -4,15 +4,15 @@ services:
     image: thelounge/thelounge:latest
     container_name: thelounge
     volumes:
-      - $CONFIGROOT/lounge:/var/opt/thelounge
+      - $DOCKERDATA:/var/opt/thelounge
     restart: unless-stopped
     labels:
       - "traefik.enable=true"     
       # web      
-      - "traefik.http.routers.irc-https.rule=Host(`irc.$DOMAINNAME`)"
-      - "traefik.http.routers.irc-https.entrypoints=websecure"   
-      - "traefik.http.routers.irc-https.service=irc-https"
-      - "traefik.http.services.irc-https.loadbalancer.server.port=9000"
+      - "traefik.http.routers.irc-rtr.rule=Host(`irc.$DOMAINNAME`)"
+      - "traefik.http.routers.irc-rtr.entrypoints=websecure"   
+      - "traefik.http.routers.irc-rtr.service=irc-svc"
+      - "traefik.http.services.irc-svc.loadbalancer.server.port=9000"
 
 networks:
   default:

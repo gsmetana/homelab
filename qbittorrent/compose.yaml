@@ -1,7 +1,6 @@
 services:
 
   qbittorrent:
-    #image: lscr.io/linuxserver/qbittorrent:4.6.2-r0-ls302
     image: lscr.io/linuxserver/qbittorrent:5.0.2-r0-ls367
     container_name: qbittorrent
     environment:
@@ -17,7 +16,7 @@ services:
       #- GSP_GTN_PORT_INDEX=1
       - GSP_MINIMAL_LOGS=false  # Enables full logs for debugging purposes
     volumes:
-      - $CONFIGROOT/qbittorrent:/config
+      - $DOCKERDATA:/config
       - $MEDIAROOT:/media
     network_mode: "container:gluetun"  # 🔒 Ensures qBittorrent ONLY works through the VPN (Prevents leaks)
     

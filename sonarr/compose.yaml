@@ -9,14 +9,14 @@ services:
       - TZ=$TZ
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $CONFIGROOT/sonarr:/config
+      - $DOCKERDATA:/config
       - $MEDIAROOT:/media
     labels:
       - "traefik.enable=true"     
       # web     
-      - "traefik.http.routers.sonarr-https.rule=Host(`sonarr.$DOMAINNAME`)"
-      - "traefik.http.routers.sonarr-https.entrypoints=websecure"
-      - "traefik.http.routers.sonarr-https.service=sonarr-svc"
+      - "traefik.http.routers.sonarr-rtr.rule=Host(`sonarr.$DOMAINNAME`)"
+      - "traefik.http.routers.sonarr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.sonarr-rtr.service=sonarr-svc"
       - "traefik.http.services.sonarr-svc.loadbalancer.server.port=8989"    
 
 networks:

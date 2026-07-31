@@ -7,18 +7,16 @@ services:
       - PGID=$PGID
       - TZ=$TZ
     volumes:
-      - $CONFIGROOT/jackett:/config
+      - $DOCKERDATA:/config
       - $MEDIAROOT:/media
-
     restart: unless-stopped
-    #network_mode: service:openvpn-client
     labels:
       - "traefik.enable=true"     
       # web      
-      - "traefik.http.routers.jackett-https.rule=Host(`jackett.$DOMAINNAME`)"
-      - "traefik.http.routers.jackett-https.entrypoints=websecure"
-      - "traefik.http.routers.jackett-https.service=jackett-https"
-      - "traefik.http.services.jackett-https.loadbalancer.server.port=9117"
+      - "traefik.http.routers.jackett-rtr.rule=Host(`jackett.$DOMAINNAME`)"
+      - "traefik.http.routers.jackett-rtr.entrypoints=websecure"
+      - "traefik.http.routers.jackett-rtr.service=jackett-svc"
+      - "traefik.http.services.jackett-svc.loadbalancer.server.port=9117"
 
 networks:
   default:

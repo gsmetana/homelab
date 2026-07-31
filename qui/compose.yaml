@@ -6,7 +6,7 @@ services:
     expose:
     - 7476
     volumes:
-      - $CONFIGROOT/qui:/config
+      - $DOCKERDATA:/config
       - $MEDIAROOT:/media
     labels:
       - "traefik.enable=true"   

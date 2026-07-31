@@ -24,7 +24,7 @@ services:
       #- VPN_PORT_FORWARDING_PORTS_COUNT=3
       - TZ=${TZ}  # Sets the timezone for correct timestamps in logs
     volumes:
-      - $CONFIGROOT/gluetun:/gluetun # Stores VPN configuration persistently
+      - $DOCKERDATA:/gluetun # Stores VPN configuration persistently
       - "./config.toml:/gluetun/auth/config.toml:ro"
     networks:
       - myNetwork

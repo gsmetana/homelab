@@ -8,7 +8,7 @@ services:
       - TZ=$TZ
       - FIREFOX_CLI=https://www.linuxserver.io/ #optional
     volumes:
-      - $CONFIGROOT/firefox:/config
+      - $DOCKERDATA:/config
     shm_size: "1gb"
     restart: unless-stopped
     network_mode: "container:gluetun"  # 🔒 Ensures firefox ONLY works through the VPN (Prevents leaks)

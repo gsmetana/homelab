@@ -9,14 +9,14 @@ services:
       - TZ=$TZ
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $CONFIGROOT/overseerr:/config
+      - $DOCKERDATA:/config
     labels:
       - "traefik.enable=true"   
       # web
-      - "traefik.http.routers.overseerr-https.rule=Host(`request.$DOMAINNAME`)"
-      - "traefik.http.routers.overseerr-https.entrypoints=websecure"
-      - "traefik.http.routers.overseerr-https.service=overseerr-https"
-      - "traefik.http.services.overseerr-https.loadbalancer.server.port=5055"
+      - "traefik.http.routers.overseerr-rtr.rule=Host(`request.$DOMAINNAME`)"
+      - "traefik.http.routers.overseerr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.overseerr-rtr.service=overseerr-svc"
+      - "traefik.http.services.overseerr-svc.loadbalancer.server.port=5055"
       
 networks:
   default:
