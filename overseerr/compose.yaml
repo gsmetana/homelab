@@ -9,7 +9,7 @@ services:
       - TZ=$TZ
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $DOCKERDATA:/config
+      - $DOCKERDATA:/app/config
     labels:
       - "traefik.enable=true"   
       # web
