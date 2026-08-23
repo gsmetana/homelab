@@ -1,7 +1,7 @@
 services:
-  overseerr:
-    image: lscr.io/linuxserver/overseerr:latest
-    container_name: overseerr
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    container_name: seerr
     restart: unless-stopped
     environment:
       - PUID=$PUID
@@ -13,10 +13,10 @@ services:
     labels:
       - "traefik.enable=true"   
       # web
-      - "traefik.http.routers.overseerr-rtr.rule=Host(`request.$DOMAINNAME`)"
-      - "traefik.http.routers.overseerr-rtr.entrypoints=websecure"
-      - "traefik.http.routers.overseerr-rtr.service=overseerr-svc"
-      - "traefik.http.services.overseerr-svc.loadbalancer.server.port=5055"
+      - "traefik.http.routers.seerr-rtr.rule=Host(`request.$DOMAINNAME`)"
+      - "traefik.http.routers.seerr-rtr.entrypoints=websecure"
+      - "traefik.http.routers.seerr-rtr.service=seerr-svc"
+      - "traefik.http.services.seerr-svc.loadbalancer.server.port=5055"
       
 networks:
   default:
