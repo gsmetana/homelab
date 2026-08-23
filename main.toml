@@ -477,12 +477,17 @@ params.servers = ["mgr"]
 ##
 
 [[resource_sync]]
-name = "homelab"
+name = "main"
 [resource_sync.config]
 linked_repo = "homelab"
-resource_path = [
-  "main.toml",
-  "mars.toml",
-  "stacks.toml"
-]
+resource_path = ["main.toml"]
+managed = true
+
+##
+
+[[resource_sync]]
+name = "stacks"
+[resource_sync.config]
+linked_repo = "homelab"
+resource_path = ["stacks.toml"]
 managed = true
