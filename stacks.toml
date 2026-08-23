@@ -1,261 +1,36 @@
-[[stack]]
-name = "tautulli"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "tautulli"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-"""
+[[server]]
+name = "mgr"
+[server.config]
+address = "https://192.168.0.85:8120"
+enabled = true
+
+##
+
+[[server]]
+name = "nas"
+[server.config]
+address = "https://192.168.0.13:8120"
+enabled = true
+
+##
 
 [[stack]]
-name = "termix"
-[stack.config]
-server = "mgr"
-linked_repo = "homelab"
-run_directory = "termix"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-"""
-
-[[stack]]
-name = "prowlarr"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "prowlarr"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-"""
-
-[[stack]]
-name = "omada"
-description = "I don't think traefik reverse proxy is working for this... may need to access at <mgr ip>:8043"
+name = "authentik"
 [stack.config]
 server = "mgr"
 linked_repo = "homelab"
-run_directory = "omada"
+run_directory = "authentik"
 environment = """
-DOMAINNAME=[[DOMAINNAME]]
-DOCKERDATA_MGR=[[DOCKERDATA_MGR]]
-"""
-
-[[stack]]
-name = "sonarr"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "sonarr"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-MEDIAROOT=[[MEDIAROOT]]
-"""
-
-[[stack]]
-name = "lidarr"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "lidarr"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-MEDIAROOT=[[MEDIAROOT]]
-"""
-
-[[stack]]
-name = "qbittorrent"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "qbittorrent"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-MEDIAROOT=[[MEDIAROOT]]
-
-GSP_GTN_API_KEY=[[GSP_GTN_API_KEY]]
-"""
-
-[[stack]]
-name = "qui"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "qui"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-MEDIAROOT=[[MEDIAROOT]]
-"""
-
-[[stack]]
-name = "firefox"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "firefox"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-"""
-
-[[stack]]
-name = "lsa-raid"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "lsa-raid"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-CONFIGROOT=[[CONFIGROOT]]
-LSA_ROOT_PASSWORD=[[LSA_ROOT_PASSWORD]]
-"""
-
-[[stack]]
-name = "lounge"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "lounge"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-"""
-
-[[stack]]
-name = "overseerr"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "overseerr"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-"""
-
-[[stack]]
-name = "cloudflared"
-[stack.config]
-server = "mgr"
-linked_repo = "homelab"
-run_directory = "cloudflared"
-environment = """
-TUNNEL_TOKEN=[[CF_TUNNEL_TOKEN]]
-"""
-
-[[stack]]
-name = "radarr"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "radarr"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-MEDIAROOT=[[MEDIAROOT]]
-"""
-
-[[stack]]
-name = "plex"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "plex"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-MEDIAROOT=[[MEDIAROOT]]
-"""
-
-[[stack]]
-name = "traefik-kop-nas"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "traefik-kop-nas"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-"""
-
-[[stack]]
-name = "jackett"
-[stack.config]
-server = "nas"
-linked_repo = "homelab"
-run_directory = "jackett"
-environment = """
-DOMAINNAME=[[DOMAINNAME]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
-MEDIAROOT=[[MEDIAROOT]]
-"""
-
-[[stack]]
-name = "vaultwarden"
-[stack.config]
-server = "mgr"
-linked_repo = "homelab"
-run_directory = "vaultwarden"
-environment = """
+AUTHENTIK_POSTGRESQL_PASSWORD=[[AUTHENTIK_POSTGRESQL_PASSWORD]]
+AUTHENTIK_SECRET_KEY=[[AUTHENTIK_SECRET_KEY]]
 DOMAINNAME=[[DOMAINNAME]]
 EMAIL_HOST=[[EMAIL_HOST]]
 EMAIL_FROM=[[EMAIL_FROM]]
+
+DOCKERDATA=[[DOCKERDATA_MGR]]/authentik
 """
 
-[[stack]]
-name = "postfix"
-[stack.config]
-server = "mgr"
-linked_repo = "homelab"
-run_directory = "postfix"
-environment = """
-TZ=[[TZ]]
-RELAY_USER=[[RELAY_USER]]
-RELAY_PASS=[[RELAY_PASS]]
-TEST_EMAIL=[[TEST_EMAIL]]
-EMAIL_FROM=[[EMAIL_FROM]]
-DOMAINNAME=[[DOMAINNAME]]
-"""
+##
 
 [[stack]]
 name = "bazarr"
@@ -268,9 +43,23 @@ DOMAINNAME=[[DOMAINNAME]]
 TZ=[[TZ]]
 PUID=[[PUID]]
 PGID=[[PGID]]
-CONFIGROOT=[[CONFIGROOT]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/bazarr
 MEDIAROOT=[[MEDIAROOT]]
 """
+
+##
+
+[[stack]]
+name = "cloudflared"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "cloudflared"
+environment = """
+TUNNEL_TOKEN=[[CF_TUNNEL_TOKEN]]
+"""
+
+##
 
 [[stack]]
 name = "gluetun"
@@ -287,6 +76,120 @@ echo 'routes = ["GET /v1/portforward"]' >> config.toml
 echo 'auth = "apikey"' >> config.toml
 echo 'apikey = "'$GSP_GTN_API_KEY'"' >> config.toml
 """
+pre_deploy.shell_mode = false
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/gluetun
+
+WIREGUARD_PRIVATE_KEY=[[WIREGUARD_PRIVATE_KEY]]
+"""
+
+##
+
+[[stack]]
+name = "jackett"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "jackett"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/jackett
+MEDIAROOT=[[MEDIAROOT]]
+"""
+
+##
+
+[[stack]]
+name = "lidarr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "lidarr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/lidarr
+MEDIAROOT=[[MEDIAROOT]]
+"""
+
+##
+
+[[stack]]
+name = "lounge"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "lounge"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/lounge
+"""
+
+##
+
+[[stack]]
+name = "lsa-raid"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "lsa-raid"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/raid
+LSA_ROOT_PASSWORD=[[LSA_ROOT_PASSWORD]]
+"""
+
+##
+
+[[stack]]
+name = "omada"
+description = "I don't think traefik reverse proxy is working for this... may need to access at https://<mgr ip>:8043"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "omada"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+DOCKERDATA=[[DOCKERDATA_MGR]]/omada
+"""
+
+##
+
+[[stack]]
+name = "overseerr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "overseerr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/overseerr
+"""
+
+##
+
+[[stack]]
+name = "plex"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "plex"
 environment = """
 DOMAINNAME=[[DOMAINNAME]]
 TZ=[[TZ]]
@@ -294,9 +197,128 @@ PUID=[[PUID]]
 PGID=[[PGID]]
 CONFIGROOT=[[CONFIGROOT]]
 MEDIAROOT=[[MEDIAROOT]]
-
-WIREGUARD_PRIVATE_KEY=[[WIREGUARD_PRIVATE_KEY]]
 """
+
+##
+
+[[stack]]
+name = "postfix"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "postfix"
+environment = """
+TZ=[[TZ]]
+RELAY_USER=[[RELAY_USER]]
+RELAY_PASS=[[RELAY_PASS]]
+TEST_EMAIL=[[TEST_EMAIL]]
+EMAIL_FROM=[[EMAIL_FROM]]
+DOMAINNAME=[[DOMAINNAME]]
+"""
+
+##
+
+[[stack]]
+name = "prowlarr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "prowlarr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/prowlarr
+"""
+
+##
+
+[[stack]]
+name = "qbittorrent"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "qbittorrent"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/qbittorrent
+MEDIAROOT=[[MEDIAROOT]]
+
+GSP_GTN_API_KEY=[[GSP_GTN_API_KEY]]
+"""
+
+##
+
+[[stack]]
+name = "qui"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "qui"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/qui
+MEDIAROOT=[[MEDIAROOT]]
+"""
+
+##
+
+[[stack]]
+name = "radarr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "radarr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/radarr
+MEDIAROOT=[[MEDIAROOT]]
+"""
+
+##
+
+[[stack]]
+name = "sonarr"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "sonarr"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/sonarr
+MEDIAROOT=[[MEDIAROOT]]
+"""
+
+##
+
+[[stack]]
+name = "tautulli"
+[stack.config]
+server = "nas"
+linked_repo = "homelab"
+run_directory = "tautulli"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOCKERDATA=[[DOCKERDATA_NAS]]/tautulli
+"""
+
+##
 
 [[stack]]
 name = "traefik"
@@ -314,44 +336,158 @@ sed -e 's/$DOMAINNAME/[[DOMAINNAME]]/g' -e 's/$CLOUDFLARE_EMAIL/[[CLOUDFLARE_EMA
 sed -e 's/$DOMAINNAME/[[DOMAINNAME]]/g' -e 's/$ROUTER_IP/[[ROUTER_IP]]/g' -e 's/$PROXMOX_IP/[[PROXMOX_IP]]/g' rules/external.template > rules/external.yaml
 sed -e 's/$DOMAINNAME/[[DOMAINNAME]]/g'  rules/middlewares-authentik.template > rules/middlewares-authentik.yaml
 """
+pre_deploy.shell_mode = false
 environment = """
 DOMAINNAME=[[DOMAINNAME]]
 CLOUDFLARE_DNS_API_TOKEN=[[CLOUDFLARE_DNS_API_TOKEN]]
 CLOUDFLARE_EMAIL=[[CLOUDFLARE_EMAIL]]
-DOCKERDATA_MGR=[[DOCKERDATA_MGR]]
+DOCKERDATA=[[DOCKERDATA_MGR]]/traefik3
 """
 
-[[stack]]
-name = "authentik"
-[stack.config]
-server = "mgr"
-linked_repo = "homelab"
-run_directory = "authentik"
-environment = """
-AUTHENTIK_POSTGRESQL_PASSWORD=[[AUTHENTIK_POSTGRESQL_PASSWORD]]
-AUTHENTIK_SECRET_KEY=[[AUTHENTIK_SECRET_KEY]]
-DOMAINNAME=[[DOMAINNAME]]
-EMAIL_HOST=[[EMAIL_HOST]]
-EMAIL_FROM=[[EMAIL_FROM]]
-
-DOCKERDATA_MGR=[[DOCKERDATA_MGR]]
-"""
+##
 
 [[stack]]
-name = "proxbackup-nas"
+name = "traefik-kop-nas"
 [stack.config]
 server = "nas"
 linked_repo = "homelab"
-run_directory = "proxbackup-nas"
+run_directory = "traefik-kop-nas"
 environment = """
-TZ=[[TZ]]
-CONFIGROOT=[[CONFIGROOT]]
-RAIDROOT=[[RAIDROOT]]
-PBS_ENDPOINT=[[PBS_ENDPOINT]]
-PBS_DATASTORE=[[PBS_DATASTORE]]
-PBS_API_KEY_NAME=[[PBS_API_KEY_NAME]]
-PBS_API_KEY_SECRET=[[PBS_API_KEY_SECRET]]
-PBS_FINGERPRINT=[[PBS_FINGERPRINT]]
-
-TS_AUTHKEY=[[TS_AUTHKEY]]
+DOMAINNAME=[[DOMAINNAME]]
 """
+
+##
+
+[[stack]]
+name = "vaultwarden"
+[stack.config]
+server = "mgr"
+linked_repo = "homelab"
+run_directory = "vaultwarden"
+environment = """
+DOMAINNAME=[[DOMAINNAME]]
+EMAIL_HOST=[[EMAIL_HOST]]
+EMAIL_FROM=[[EMAIL_FROM]]
+DOCKERDATA=[[DOCKERDATA_MGR]]/vaultwarden
+"""
+
+##
+
+[[deployment]]
+name = "terraforming-mars"
+[deployment.config]
+server = "mgr"
+image.type = "Build"
+image.params.build = "terraforming-mars"
+network = "myNetwork"
+restart = "unless-stopped"
+environment = """
+  
+"""
+labels = """
+- "traefik.enable=true"     
+# web      
+- "traefik.http.routers.mars-https.rule=Host(\`mars.[[DOMAINNAME]]\`)"
+- "traefik.http.routers.mars-https.entrypoints=websecure"
+- "traefik.http.routers.mars-https.service=mars-https"
+- "traefik.http.services.mars-https.loadbalancer.server.port=8080"
+"""
+
+##
+
+[[build]]
+name = "terraforming-mars"
+[build.config]
+builder = "Local"
+linked_repo = "terraforming-mars"
+
+##
+
+[[repo]]
+name = "homelab"
+[repo.config]
+server = "mgr"
+builder = "Local"
+git_account = "gsmetana"
+repo = "gsmetana/homelab"
+
+##
+
+[[repo]]
+name = "terraforming-mars"
+[repo.config]
+server = "nas"
+builder = "Local"
+git_account = "gsmetana"
+repo = "terraforming-mars/terraforming-mars"
+
+##
+
+[[procedure]]
+name = "Backup Core Database"
+description = "Triggers the Core database backup at the scheduled time."
+tags = ["system"]
+config.schedule = "Every day at 01:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "BackupCoreDatabase", execution.params = {}, enabled = true }
+]
+
+##
+
+[[procedure]]
+name = "Global Auto Update"
+description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
+tags = ["system"]
+config.schedule = "Every day at 03:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "GlobalAutoUpdate", execution.params.skip_auto_update = false, enabled = true }
+]
+
+##
+
+[[procedure]]
+name = "Rotate Server Keys"
+description = "Rotates all currently connected Server keys."
+tags = ["system"]
+config.schedule = "Every day at 06:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "RotateAllServerKeys", execution.params = {}, enabled = true }
+]
+
+##
+
+[[builder]]
+name = "Local"
+[builder.config]
+type = "Server"
+params.servers = ["mgr"]
+
+##
+
+[[resource_sync]]
+name = "main"
+[resource_sync.config]
+linked_repo = "homelab"
+resource_path = ["main.toml"]
+managed = true
+
+##
+
+[[resource_sync]]
+name = "stacks"
+[resource_sync.config]
+linked_repo = "homelab"
+resource_path = ["stacks.toml"]
+managed = true
