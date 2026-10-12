@@ -1,6 +1,6 @@
 services:
-  cloudflared:
-    container_name: cloudflared
+  cloudflared-mgr:
+    container_name: cloudflared-mgr
     image: cloudflare/cloudflared
     restart: unless-stopped
     command: tunnel run
